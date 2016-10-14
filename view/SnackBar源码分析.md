@@ -23,7 +23,7 @@ Snackbar是android support包中，用来在屏幕底部弹出消息的控件，
 
 一般采用如下的代码，当然下面是一个完整的例子，包括了添加点击事件，以及显示
 
-```
+```java
 Snackbar snackbar =  Snackbar.
 make(mRootView, getString(R.string.show_message),Snackbar.LENGTH_INDEFINITE)
 .setAction(getString(R.string.open), mSnackBarClickListener);
@@ -46,7 +46,7 @@ snackbar.show();
 `SnackbarManager.getInstance().show(mDuration, mManagerCallback);`，一开始我还在想，就这一行代码能够把`snackbar`这个控件显示到屏幕上，真让人惊讶，同时也让人一脸懵逼，完全不知这是个什么情况，只好跟代码，到`SnackbarManager`里面，看看`SnackbarManager.show(mDuration, mManagerCallback)`方法是干嘛的。对于`SnackbarManager.getInstance()`先看做单例吧，目前只分析关键代码。
 
 
-```
+```java
 public void show(int duration, Callback callback) {
         synchronized (mLock) {
             if (isCurrentSnackbarLocked(callback)) {
@@ -81,7 +81,7 @@ public void show(int duration, Callback callback) {
 ```
 在`SnackbarManager.show()`方法内部，通过加锁机制保证同一时间只显示一个`snackbar`，假设当前是第一次显示`snackbar`，那么初始状态的`mCurrentSnackbar`，`mNextSnackbar`均为`null`，代码第一次会执行`showNextSnackbarLocked()`方法。
 
-```
+```java
 private void showNextSnackbarLocked() {
         if (mNextSnackbar != null) {
 			...
@@ -99,7 +99,7 @@ private void showNextSnackbarLocked() {
 
 回到showNextSnackbarLocked()方法中，我们调用的callback.show()，其实就是mManagerCallback.show().具体执行的就是下面的
 
-```
+```java
 private final SnackbarManager.Callback mManagerCallback = new SnackbarManager.Callback() {
         @Override
         public void show() {
@@ -119,7 +119,81 @@ private final SnackbarManager.Callback mManagerCallback = new SnackbarManager.Ca
 
 接着看看`handler`发消息后怎么走的，这个时候消息进入队列中等待调度。主线程调度到这个`MSG_SHOW`的消息时,会执行`((Snackbar) message.obj).showView();`  `message.obj`就是当前的`Snackbar`对象，调用的也是当前的`showView`方法，历经千辛万苦终于到了目的地了，太不容易了。
 
+
+```java
+final void showView() {
+        if (mView.getParent() == null) {
+            final ViewGroup.LayoutParams lp = mView.getLayoutParams();
+
+            if (lp instanceof CoordinatorLayout.LayoutParams) {
+                // If our LayoutParams are from a CoordinatorLayout, we'll setup our Behavior
+		...
+            }
+            mParent.addView(mView);
+        }
+
+        if (ViewCompat.isLaidOut(mView)) {
+            // If the view is already laid out, animate it now
+            animateViewIn();
+        } else {
+            // Otherwise, add one of our layout change listeners and animate it in when laid out
+            mView.setOnLayoutChangeListener(new SnackbarLayout.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View view, int left, int top, int right, int bottom) {
+                    animateViewIn();
+                    mView.setOnLayoutChangeListener(null);
+                }
+            });
+        }
+    }
+```
 showView()代码还是挺多的，显示的逻辑执行的还是`animateViewIn()`方法，里面是通过view动画，或者是属性动画来实现动画效果
+
+```java
+private void animateViewIn() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            ViewCompat.setTranslationY(mView, mView.getHeight());
+            ViewCompat.animate(mView).translationY(0f)
+                    .setInterpolator(FAST_OUT_SLOW_IN_INTERPOLATOR)
+                    .setDuration(ANIMATION_DURATION)
+                    .setListener(new ViewPropertyAnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(View view) {
+                            mView.animateChildrenIn(ANIMATION_DURATION - ANIMATION_FADE_DURATION,
+                                    ANIMATION_FADE_DURATION);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(View view) {
+                            if (mCallback != null) {
+                                mCallback.onShown(Snackbar.this);
+                            }
+                            SnackbarManager.getInstance().onShown(mManagerCallback);
+                        }
+                    }).start();
+        } else {
+            Animation anim = AnimationUtils.loadAnimation(mView.getContext(), R.anim.design_snackbar_in);
+            anim.setInterpolator(FAST_OUT_SLOW_IN_INTERPOLATOR);
+            anim.setDuration(ANIMATION_DURATION);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (mCallback != null) {
+                        mCallback.onShown(Snackbar.this);
+                    }
+                    SnackbarManager.getInstance().onShown(mManagerCallback);
+                }
+
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
+            mView.startAnimation(anim);
+        }
+    }
+```
 
 ###dismiss()
 
