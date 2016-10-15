@@ -37,13 +37,15 @@ snackbar.show();
 准备从两个方法讲起，一块是`show()`， 一个是`dismiss()`
 
 ###show()
-在我们调用`snackbar.show()`的时候,我们能够马上看到屏幕底部显示出了一个黑色的弹出框。但是这一过程是如何完成的，不看源码还是不太清楚的，
+在我们调用`snackbar.show()`的时候,我们能够马上看到屏幕底部显示出了一个黑色的弹出框。但是这一过程是如何完成的，不看源码还是不太清楚的
 
 
 想要把`snackbar`显示到屏幕上，需要调用`show()`，那么`show`方法究竟做了什么工作呢。
 
 翻开源码我们看到，show方法内部只有一行代码
-`SnackbarManager.getInstance().show(mDuration, mManagerCallback);`，一开始我还在想，就这一行代码能够把`snackbar`这个控件显示到屏幕上，真让人惊讶，同时也让人一脸懵逼，完全不知这是个什么情况，只好跟代码，到`SnackbarManager`里面，看看`SnackbarManager.show(mDuration, mManagerCallback)`方法是干嘛的。对于`SnackbarManager.getInstance()`先看做单例吧，目前只分析关键代码。
+`SnackbarManager.getInstance().show(mDuration, mManagerCallback);` 
+
+一开始我还在想，就这一行代码能够把`snackbar`这个控件显示到屏幕上，真让人惊讶，同时也让人一脸懵逼，完全不知这是个什么情况，只好跟代码，到`SnackbarManager`里面，看看`SnackbarManager.show(mDuration, mManagerCallback)`方法是干嘛的。对于`SnackbarManager.getInstance()`先看做单例吧，目前只分析关键代码。
 
 
 ```java
@@ -94,7 +96,7 @@ private void showNextSnackbarLocked() {
     }
 ```
 
-在`showNextSnackbarLocked()`方法中，是会执行`callback.show()`的，这个`callback`是来自于`mCurrentSnackbar`的属性`callback`，我们知道`mCurrentSnackbar`是`SnackbarRecord`类型的对象.只需要找找代码中什么时候给`SnackbarRecord`被实例化对象了。搜索代码发现是在我们的`show`方法中，也就是这一行代码`mNextSnackbar = new SnackbarRecord(duration, callback);` `mCurrentSnackbar`的`callback`就是这个时候传递进去的，而这个`callback`是调用`SnackbarManager.show()`方法的时候传递进去的参数，通过最开始的调用，我们是在Snackbar.show()方法内部，调用了SnackbarManager.show()，同时也是这个时候传递的参数mManagerCallback,这个mManagerCallback是Snackbar里面的一个成员变量，也是一开始就初始化了。
+在`showNextSnackbarLocked()`方法中，是会执行`callback.show()`的，这个`callback`是来自于`mCurrentSnackbar`的属性`callback`，我们知道`mCurrentSnackbar`是`SnackbarRecord`类型的对象.只需要找找代码中什么时候`SnackbarRecord`被实例化了。搜索代码发现是在我们的`show`方法中，也就是这一行代码`mNextSnackbar = new SnackbarRecord(duration, callback);` `mCurrentSnackbar`的`callback`就是这个时候传递进去的，而这个`callback`是调用`SnackbarManager.show(duration, callback)`方法的时候传递进去的参数，而在最开始的调用过程中，在`Snackbar.show()`方法内部，调用了`SnackbarManager.show(duration, callback)`，同时也是这个时候传递的参数`mManagerCallback`,这个`mManagerCallback`是`Snackbar`里面的一个成员变量，一开始就初始化了。
 
 
 回到showNextSnackbarLocked()方法中，我们调用的callback.show()，其实就是mManagerCallback.show().具体执行的就是下面的
@@ -147,7 +149,12 @@ final void showView() {
         }
     }
 ```
-showView()代码还是挺多的，显示的逻辑执行的还是`animateViewIn()`方法，里面是通过view动画，或者是属性动画来实现动画效果
+showView()代码还是挺多的，显示的逻辑执行的还是`animateViewIn()`方法，里面是通过`view`动画或者是属性动画来实现动画效果。
+
+这个方法还是需要详细分析的，通过debug发现`mView`需要设置`Behavior`，这样才能在`CoordinatorLayout`控件下产生效果，比如说`snackbar`跟`FloatingActionButton`的联动效果。 默认情况下,`ViewCompat.isLaidOut(mView)`返回的结果是`false`,所以还是`mView`自己设置的`listener`来监听布局的变化，来执行`animateViewIn()`
+
+`animateViewIn()`这个方法会判断当前的`sdk`版本，大于等于`14`，直接采用属性动画实现效果，小于`14`，采用的就是`view`动画。当动画结束的时候，会执行`SnackbarManager.getInstance().onShown(mManagerCallback)`，做的是发一个延迟消息`MSG_TIMEOUT`，用来隐藏`view`的事情，这一块最终是又走到了`((Snackbar) message.obj).hideView(message.arg1)                      ` 这块就是下文`dismiss`的内容了。
+
 
 ```java
 private void animateViewIn() {
