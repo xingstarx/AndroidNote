@@ -16,7 +16,7 @@
 `dismiss()`
 
 ##作用
-Snackbar是android support包中，用来在屏幕底部弹出消息的控件，和Toast类似，用法也比较接近。
+`Snackbar`是android support包中，用来在屏幕底部弹出消息的控件，和`Toast`类似，用法也比较接近。
 
 
 ##用法
@@ -42,7 +42,7 @@ snackbar.show();
 
 想要把`snackbar`显示到屏幕上，需要调用`show()`，那么`show`方法究竟做了什么工作呢。
 
-翻开源码我们看到，show方法内部只有一行代码
+翻开源码我们看到，`show`方法内部只有一行代码
 `SnackbarManager.getInstance().show(mDuration, mManagerCallback);` 
 
 一开始我还在想，就这一行代码能够把`snackbar`这个控件显示到屏幕上，真让人惊讶，同时也让人一脸懵逼，完全不知这是个什么情况，只好跟代码，到`SnackbarManager`里面，看看`SnackbarManager.show(mDuration, mManagerCallback)`方法是干嘛的。对于`SnackbarManager.getInstance()`先看做单例吧，目前只分析关键代码。
@@ -99,7 +99,7 @@ private void showNextSnackbarLocked() {
 在`showNextSnackbarLocked()`方法中，是会执行`callback.show()`的，这个`callback`是来自于`mCurrentSnackbar`的属性`callback`，我们知道`mCurrentSnackbar`是`SnackbarRecord`类型的对象.只需要找找代码中什么时候`SnackbarRecord`被实例化了。搜索代码发现是在我们的`show`方法中，也就是这一行代码`mNextSnackbar = new SnackbarRecord(duration, callback);` `mCurrentSnackbar`的`callback`就是这个时候传递进去的，而这个`callback`是调用`SnackbarManager.show(duration, callback)`方法的时候传递进去的参数，而在最开始的调用过程中，在`Snackbar.show()`方法内部，调用了`SnackbarManager.show(duration, callback)`，同时也是这个时候传递的参数`mManagerCallback`,这个`mManagerCallback`是`Snackbar`里面的一个成员变量，一开始就初始化了。
 
 
-回到showNextSnackbarLocked()方法中，我们调用的callback.show()，其实就是mManagerCallback.show().具体执行的就是下面的
+回到`showNextSnackbarLocked()`方法中，我们调用的`callback.show()`，其实就是`mManagerCallback.show()`.具体执行的就是下面的
 
 ```java
 private final SnackbarManager.Callback mManagerCallback = new SnackbarManager.Callback() {
@@ -205,7 +205,7 @@ private void animateViewIn() {
 ###dismiss()
 
 
-dismiss()方法内部是dispatchDismiss(Callback.DISMISS_EVENT_MANUAL)，有了上一部分的基础后，dispatchDismiss最终会走到sHandler的handleMessage(message)中，也就是MSG_DISMISS消息的部分。((Snackbar) message.obj).hideView(message.arg1);
+`dismiss()`方法内部是`dispatchDismiss(Callback.DISMISS_EVENT_MANUAL)`，有了上一部分的基础后，`dispatchDismiss`最终会走到`sHandler`的`handleMessage(message)`中，也就是`MSG_DISMISS`消息的部分。`((Snackbar) message.obj).hideView(message.arg1)`
 
 ```java
 final void hideView(int event) {
@@ -216,7 +216,7 @@ final void hideView(int event) {
         }
     }
 ```                        
-hideview里面是个条件语句，满足的话执行onViewHidden(event)，不满足的话执行animateViewOut(event)。默认情况下会执行animateViewOut，snackbar是缓慢的从屏幕中移除，在这个方法内部执行完动画后，还是会触发onViewHidden(event)，这个方法做的是事情包括，告诉SnackbarManager当前的snackbar已经dismiss，准备显示下一个snackbar；执行当前snackbar的mCallback.onDismissed方法，一般由应用开发者自己添加的；从视图中移除view
+`hideview`里面是个条件语句，满足的话执行`onViewHidden(event)`，不满足的话执行`animateViewOut(event)`。默认情况下会执行`animateViewOut(event)`，`snackbar`是缓慢的从屏幕中移除，在这个方法内部执行完动画后，还是会触发`onViewHidden(event)`，这个方法做的是事情包括，告诉`SnackbarManager`当前的`snackbar`已经dismiss，准备显示下一个`snackbar`；执行当前`snackbar`的`mCallback.onDismissed`方法，一般由应用开发者自己添加的；从视图中移除`view`
 
 源码分析到此已经结束了。
 
