@@ -205,9 +205,56 @@ private void animateViewIn() {
 ###dismiss()
 
 
+dismiss()方法内部是dispatchDismiss(Callback.DISMISS_EVENT_MANUAL)，有了上一部分的基础后，dispatchDismiss最终会走到sHandler的handleMessage(message)中，也就是MSG_DISMISS消息的部分。((Snackbar) message.obj).hideView(message.arg1);
+
+```java
+final void hideView(int event) {
+        if (mView.getVisibility() != View.VISIBLE || isBeingDragged()) {
+            onViewHidden(event);
+        } else {
+            animateViewOut(event);
+        }
+    }
+```                        
+hideview里面是个条件语句，满足的话执行onViewHidden(event)，不满足的话执行animateViewOut(event)。默认情况下会执行animateViewOut，snackbar是缓慢的从屏幕中移除，在这个方法内部执行完动画后，还是会触发onViewHidden(event)，这个方法做的是事情包括，告诉SnackbarManager当前的snackbar已经dismiss，准备显示下一个snackbar；执行当前snackbar的mCallback.onDismissed方法，一般由应用开发者自己添加的；从视图中移除view
+
+源码分析到此已经结束了。
+
+
+##碰到过的问题
+另外需要提几点注意事项，个人在开发过程中碰到的。
+
+```java
+@NonNull
+    public Snackbar setAction(CharSequence text, final View.OnClickListener listener) {
+        final TextView tv = mView.getActionView();
+
+        if (TextUtils.isEmpty(text) || listener == null) {
+            tv.setVisibility(View.GONE);
+            tv.setOnClickListener(null);
+        } else {
+            tv.setVisibility(View.VISIBLE);
+            tv.setText(text);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onClick(view);
+                    // Now dismiss the Snackbar
+                    dispatchDismiss(Callback.DISMISS_EVENT_ACTION);
+                }
+            });
+        }
+        return this;
+    }
+```   
 
 
 
+1 `Snackbar`与`FloatingActionButton`配合使用,父布局也的确是`CoordinatorLayout` `snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
+        });` 在产品开发中，写过一段这样的代码。导致了一个明显的问题，当我们在弹出`snackbar`后，点击`Action`事件，发现`floatingActionButton`不会再回到原来的位置了。当点击`Action`后，一依次发送了两次`Dismiss_event`事件，`DISMISS_EVENT_MANUAL`和`DISMISS_EVENT_ACTION`，仔细翻阅了`Snackbar`相关的代码，还是没有看出来为啥，估计是只能发送一次吧，多次的话，`Snackbar`已经不存在了，同时也没有办法通过`CoordinatorLayout`改变`FloatingActionButton`的布局了
+        
+2 `Snackbar`的存在时间分析，在这篇文章开头的地方，使用的`Snackbar.LENGTH_INDEFINITE`，这样产生的效果是`snackbar`一直显示，而用其他两个常量，就会过一段时间消失。在`Snackbar`的`animateViewIn`方法中，动画执行完毕，接着执行了`SnackbarManager.getInstance().onShown(mManagerCallback);`这段代码调用了`SnackbarManager`的`scheduleTimeoutLocked(SnackbarRecord)`，方法内部对`LENGTH_INDEFINITE`类型的显示时间做了判断，过滤这种情况，只对另外两种类型，发送延迟消息`MSG_TIMEOUT`,主线程收到此类型的消息调用`handleTimeout(snackbarRecord)`，又会发送`DISMISS_EVENT_TIMEOUT`的消息到`sHanlder`中，这样就实现了过一会自动hide `snackbar`
 
 
 
