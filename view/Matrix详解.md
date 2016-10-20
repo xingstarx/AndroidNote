@@ -71,9 +71,9 @@ matrix.preScale(0.5f, 0.5f);
 matrix.preTranslate(-pivotX, -pivotY);
 matrix.postTranslate(pivotX, pivotY);
 ```
-这段代码执行的结果是什么呢？我们假设当前的屏幕是720*1280px，屏幕密度为2，在我的红米2A上这个数据。pivotX为屏幕宽度的一半，pivotY为屏幕高度的一半
+这段代码执行的结果是什么呢？我们假设当前的屏幕是720*1280px，屏幕密度为2，在我的红米2A上就是这个数据，同时我也以这个数据做实验。假设pivotX为屏幕宽度的一半，pivotY为屏幕高度的一半，pivotX = 360, pivotY = 640
 
-Matrix(m)初始化的值为
+Matrix(m)初始化的值为(对于执行了new Matrix()或者是reset()的都是下面的矩阵)
 
 |     0   |     1    |     2     |
 | :-----: | :------: | :-------: |
@@ -156,7 +156,7 @@ postTranslate（360, 640）
 | 0 | 0 | 1 |
 
 
-*那么这三行代码执行的结果，解释起来就是沿着view的中心位置缩放0.5得到的矩阵变化*
+*那么这三行代码执行的结果，解释起来就是沿着view的中心位置缩放一半*
 
 
 
