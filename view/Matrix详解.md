@@ -33,17 +33,17 @@ Matrix类转换为3*3矩阵的表现形式为(由于不太懂矩阵的markdown�
 
 ##Matrix常用API
 
-Matrix操作方法主要分为三类，分别是set,post,pre三类，其中set不用多讲，pre，post则不一样，代表着不同的矩阵乘法顺序
+`Matrix`操作方法主要分为三类，分别是`set`,`post`,`pre`三类，其中`set`不用多讲，`pre`，`post`则不一样，代表着不同的矩阵乘法顺序
 
-我们用translate来讲
+我们用`translate`来讲
 
-setTranslate() 
+`setTranslate() `
 
-postTranslate() 在方法内部进行的是 `M' = T(dx, dy) * M`，t 左乘m
+`postTranslate()` 在方法内部进行的是 `M' = T(dx, dy) * M`，t 左乘m
 
-preTranslate()  在方法内部进行的是 `M' = M * T(dx, dy)`，m左乘t
+`preTranslate()`  在方法内部进行的是 `M' = M * T(dx, dy)`，m左乘t
 
-post,pre的乘法计算顺序是相反的，矩阵乘法不满足交换律，所以计算结果几乎是不同的。
+`post`,`pre`的乘法计算顺序是相反的，矩阵乘法不满足交换律，所以计算结果几乎是不同的。
 
 **常用API包括下面的组合形式**
 
@@ -54,6 +54,7 @@ post,pre的乘法计算顺序是相反的，矩阵乘法不满足交换律，所
 | rotate  |setRotate|preRotate|postRotate|
 
 以及其他常用API
+
 
 
 
