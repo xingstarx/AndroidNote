@@ -37,7 +37,7 @@ Matrix类转换为3*3矩阵的表现形式为(由于不太懂矩阵的markdown�
 
 我们用`translate`来讲
 
-`setTranslate() `
+`setTranslate() ` 指定了移动的位置，不需要通过左乘右乘
 
 `postTranslate()` 在方法内部进行的是 `M' = T(dx, dy) * M`，t 左乘m
 
@@ -53,8 +53,9 @@ Matrix类转换为3*3矩阵的表现形式为(由于不太懂矩阵的markdown�
 |  scale  |setScale|preScale|postScale|
 | rotate  |setRotate|preRotate|postRotate|
 
-以及其他常用API
-setConcat()
+**以及其他常用API**
+
+`setConcat()`
 
 
 ##数学知识
@@ -76,7 +77,7 @@ setConcat()
 
 2 矩阵满足结合律，不满足交换律
 
-3下列矩阵
+3 下列矩阵
 
 |     0   |     1    |     2     |
 | :-----: | :------: | :-------: |
