@@ -69,3 +69,8 @@ alias gstp='git stash pop'
 
 目前而言使用这7个命令，已经足够解决我95%的问题了。(是不是感觉很简洁，好用)
 
+##配合zsh使用
+
+##配合proxychains4使用
+
+
