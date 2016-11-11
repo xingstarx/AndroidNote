@@ -14,6 +14,6 @@
 
 
 ##Pull Request流程
-
+1. Pull Request流程在Github上可是非常流行的，当我们给一些出名的项目提patch，就可以采用pull request的机制。步骤如下，首先fork别人的仓库，自己就相当于复制了一份代码;接着在自己的仓库中创建一个新的feature分支;然后在开发者的项目主页点击pull request，选中自己的feature分支,生成一个pull request请求。这样就完成了，只需要库作者检查合并即可。这对协作开发而言，是非常方便的。
 
 ##Git别名
