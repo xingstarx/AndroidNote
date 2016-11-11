@@ -57,4 +57,15 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 ```
 
-就列举这些常用的命令吧
+就列举这些常用的命令吧，再介绍，平常我使用的比较多的几个别名命令
+
+1. gaa (添加全部文件到暂存区)
+2. gcam "xxx" (添加一条commit "xxx")
+3. gfo (抓取远程库的分支到本地)
+4. ggpull --rebase(拉取远程库的代码到本地，同时对于当前分支的代码以rebase方式进行合并，以保持一条主干的结构，而非枝繁叶茂的情况)
+5. ggpush feature-hello-world(推送feature-hello-world到远程)(如果要强制推代码，可以改为ggpush --force feature-hello-world)(这篇没有提到这个的别名，有需要我在写出来)
+6. grb(grbi) (用来进行rebase命令)
+7. gst (用来显示当前分支，或者是当前分支的状态)
+
+目前而言使用这7个命令，已经足够解决我95%的问题了。(是不是感觉很简洁，好用)
+
