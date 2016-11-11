@@ -17,3 +17,44 @@
 1. Pull Request流程在Github上可是非常流行的，当我们给一些出名的项目提patch，就可以采用pull request的机制。步骤如下，首先fork别人的仓库，自己就相当于复制了一份代码;接着在自己的仓库中创建一个新的feature分支;然后在开发者的项目主页点击pull request，选中自己的feature分支,生成一个pull request请求。这样就完成了，只需要库作者检查合并即可。这对协作开发而言，是非常方便的。
 
 ##Git别名
+
+敲一个 `git rebase -i origin/develop` 感觉好费事，要敲好久。就在考虑能不能简化命令，不要敲那么多代码，用简单的几个字母代表复杂的含义,这里介绍我的Git别名
+
+```
+alias g='git'
+alias ga='git add'
+alias gaa='git add --all'
+alias gcam='git commit -a -m'
+alias gcb='git checkout -b'
+alias gcm='git checkout master'
+alias gcmsg='git commit -m'
+alias gco='git checkout'
+
+alias gd='git diff'
+alias gf='git fetch'
+alias gfo='git fetch origin'
+alias gl='git pull'
+alias gm='git merge'
+alias gmom='git merge origin/master'
+alias gmum='git merge upstream/master'
+alias gp='git push'
+
+alias gr='git remote'
+alias gra='git remote add'
+alias grb='git rebase'
+alias grba='git rebase --abort'
+alias grbc='git rebase --continue'
+alias grbi='git rebase -i'
+alias grbm='git rebase master'
+alias grbs='git rebase --skip'
+
+alias gss='git status -s'
+alias gst='git status'
+alias gsta='git stash'
+alias gstaa='git stash apply'
+alias gstd='git stash drop'
+alias gstl='git stash list'
+alias gstp='git stash pop'
+```
+
+就列举这些常用的命令吧
