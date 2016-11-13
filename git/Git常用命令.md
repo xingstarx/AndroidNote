@@ -96,3 +96,6 @@ alias sup='sudo proxychains4'
 ##Git的图形化工具
 我比较喜欢使用sourcetree，用起来挺方便的，代码提交的commit非常清晰，相对于Github的客户端而言，我更喜欢用sourcetree
 
+
+##终端图形化工具
+Git在终端下也是有图形化工具的那就是tig
