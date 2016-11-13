@@ -90,6 +90,9 @@ p 是我的取的别名，我的配置为
 ```
 alias p='proxychains4'
 alias sup='sudo proxychains4'
-
 ```
 我们的代码仓库在shadowsocks是没有办法推送代码到服务器的，只能走proxychains4代理才能推送代码到远程
+
+##Git的图形化工具
+我比较喜欢使用sourcetree，用起来挺方便的，代码提交的commit非常清晰，相对于Github的客户端而言，我更喜欢用sourcetree
+
