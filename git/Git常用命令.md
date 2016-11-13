@@ -79,4 +79,17 @@ zsh的配置文件是.zshrc，一般情况下位于~/.zshrc目录下，在配置
 
 ##配合proxychains4使用
 
+教程可以看这篇文章http://www.jianshu.com/p/58e20ea2a62e
 
+proxychains4主要是用来设置终端走代理的，我的mac环境下面既用green vpn，也用shadowsocks。有时候想让终端走代理(vpn用不了的时候)，让shadowsocks可以支持终端翻墙。
+
+目前的应用场景是推送代码到远程代码仓库。命令为 `p git push origin feature-hello-world` 
+
+p 是我的取的别名，我的配置为
+
+```
+alias p='proxychains4'
+alias sup='sudo proxychains4'
+
+```
+我们的代码仓库在shadowsocks是没有办法推送代码到服务器的，只能走proxychains4代理才能推送代码到远程
