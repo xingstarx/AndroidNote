@@ -71,6 +71,12 @@ alias gstp='git stash pop'
 
 ##配合zsh使用
 
+zsh是一个功能强大的终端软件，跟默认的terminal相比，完全不在一个数量级。配合[oh-my-zsh插件](https://github.com/robbyrussell/oh-my-zsh)，功能显得超级强大。(具体可以Google)，在配置文件中开启`plugins=(git,gradle,osx,mvn,textmate)`这些插件，开启Git插件后，终端的每一行都会提示当前项目所在的分支的，额外清晰(如果当前项目添加过Git版本管理的话)
+
+zsh的配置文件是.zshrc，一般情况下位于~/.zshrc目录下，在配置文件里面添加上我们起得Git别名，也就是上面的代码片段
+(取别名可以参考https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/git/git.plugin.zsh)
+
+
 ##配合proxychains4使用
 
 
