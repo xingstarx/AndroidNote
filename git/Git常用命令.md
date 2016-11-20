@@ -1,3 +1,7 @@
+##仓库命令
+1. 初始化一个仓库 `git init`
+2. 给本地仓库添加远程库 `git remote add origin https://github.com/xingstarx/AndroidNote`  这样本地仓库，就和远程仓库关联起来了，当然了，远程仓库可以有多个，添加的时候可以再取个别名如`git remote add upstream https://github.com/xingstarx2/AndroidNote`
+
 ##分支命令
 
 1. 创建分支 `git checkout -b feature-git-learning`(创建了一个feature-git-learning分支，并切换到feature-git-learning分支上去，主要使用这个命令) (`git checkout feature-git-learning` 是切换到feature-git-learning分支上，若是feature-git-learning分支不存在，就会执行失败)
