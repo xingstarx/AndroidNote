@@ -94,8 +94,8 @@ alias sup='sudo proxychains4'
 我们的代码仓库在shadowsocks是没有办法推送代码到服务器的，只能走proxychains4代理才能推送代码到远程
 
 ##Git的图形化工具
-我比较喜欢使用sourcetree，用起来挺方便的，代码提交的commit非常清晰，相对于Github的客户端而言，我更喜欢用sourcetree
+我比较喜欢使用sourcetree，用起来挺方便的，代码提交的commit非常清晰，相对于Github的客户端而言，我更喜欢用sourcetree，常用于配合rebase命令解决冲突，以及浏览代码改动比较。
 
 
 ##终端图形化工具
-Git在终端下也是有图形化工具的那就是tig
+Git在终端下也是有图形化工具的那就是tig，安装方式可以是`brew install tig` 非常简单强大的一个终端图形化工具，方便看清楚commit树的提交记录，当前的分支，代码差异比较。。
