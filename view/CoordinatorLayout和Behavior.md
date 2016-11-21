@@ -43,6 +43,7 @@ CoordinatorLayout是一个更加强大的FrameLayout布局，它的作用主要�
             if (!resortRequired && lp.isDirty(this, child)) {
                 resortRequired = true;
             }
+            //寻找设置的mAnchorView
             lp.findAnchorView(this, child);
         }
         if (resortRequired) {
