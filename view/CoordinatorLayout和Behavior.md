@@ -58,7 +58,30 @@ CoordinatorLayout是一个更加强大的FrameLayout布局，它的作用主要�
 ```
 
 ##getResolvedLayoutParams
-
+```
+LayoutParams getResolvedLayoutParams(View child) {
+        final LayoutParams result = (LayoutParams) child.getLayoutParams();
+        if (!result.mBehaviorResolved) {
+            Class<?> childClass = child.getClass();
+            DefaultBehavior defaultBehavior = null;
+            while (childClass != null &&
+                    (defaultBehavior = childClass.getAnnotation(DefaultBehavior.class)) == null) {
+                childClass = childClass.getSuperclass();
+            }
+            if (defaultBehavior != null) {
+                try {
+                    result.setBehavior(defaultBehavior.value().newInstance());
+                } catch (Exception e) {
+                    Log.e(TAG, "Default behavior class " + defaultBehavior.value().getName() +
+                            " could not be instantiated. Did you forget a default constructor?", e);
+                }
+            }
+            result.mBehaviorResolved = true;
+        }
+        return result;
+    }
+```
+根据class类上标记的注解，为其设置Behavior
 
 ##findAnchorView
 ```
