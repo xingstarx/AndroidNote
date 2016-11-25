@@ -105,3 +105,12 @@ alias sup='sudo proxychains4'
 Git在终端下也是有图形化工具的那就是tig，安装方式可以是`brew install tig` 非常简单强大的一个终端图形化工具，方便看清楚commit树的提交记录，当前的分支，代码差异比较。
 
 1. 终端下的用法，打开终端，切换到指定仓库的目录下，直接执行`tig`即可，就能够看到终端的图形化界面，通过上下方向箭头来控制移动选中的commit，具体可以查看tig的用法
+
+##文件比较
+文件比较在开发中还是经常碰到的，比如说merge，rebase冲突。还包括比较某一个Git TAG下MainActivity.java文件跟develop分支MainActivity.java的区别。 
+
+1. 命令行中，有一种方式是`git log`的形式，我用的少，就不细讲
+2. 做Android开发，直接使用Android Studio的git工具，直接就可以查看当前文件下的所有commit记录，更可以自己选择哪两次的commit比较分析。非常方便灵活，这是我主要的使用方式
+
+
+
