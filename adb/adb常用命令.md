@@ -8,5 +8,7 @@
 
 ##adb shell命令
 
-1. 查看`adb shell dumpsys activity activities | grep "org.houxg.leamonax"`
+1. 查看某一个app的activity栈 `adb shell dumpsys activity activities | grep "org.houxg.leamonax"` 
 2. 查看当前界面的activity  `adb shell dumpsys activity top`
+3. 查看某一个app的service栈 `adb shell dumpsys activity services | grep "tv.shou.android"`
+ 
