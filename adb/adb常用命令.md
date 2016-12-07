@@ -13,3 +13,4 @@
 3. 查看某一个app的service栈 `adb shell dumpsys activity services | grep "tv.shou.android"`
 4. 查看手机处理器的信息 `adb shell cat /proc/cpuinfo`
 5. 列出手机上已经安装的app的包名 `adb shell "pm list packages"|cut -f 2 -d ":"`
+6. 查看出当前的通知栏信息 `adb shell dumpsys notification`
