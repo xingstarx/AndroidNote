@@ -17,3 +17,8 @@
 
 
 ##adb connect
+在同一个局域网内，`adb connect 192.168.2.11`可以连接到指定ip的android设备
+
+##开启关闭adb服务
+1. 开启服务 `adb start-server`
+2. 关闭服务 `adb kill-server`
