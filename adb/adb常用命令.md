@@ -22,3 +22,9 @@
 ##开启关闭adb服务
 1. 开启服务 `adb start-server`
 2. 关闭服务 `adb kill-server`
+
+##重启手机
+手机卡死了,只要能连上adb `adb reboot` 解决重启问题
+
+##开发中常用
+`adb device` 查看当前设备的链接状态
