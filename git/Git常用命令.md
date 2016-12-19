@@ -14,6 +14,10 @@
 6. 拉取远程分支 `git pull --rebase` (使用rebase可以在远程库来下的同时解决冲突问题)(使用`git pull`一般就够了)
 7. 推送分支到远程 `git push origin feature-git-learning`(推送本地当前分支到远程库中，比如说推送代码到github上)
 
+##暂存命令
+1. 在做需求的过程中，突然老大安排你解决线上的bug，我们就得停下手头的工作了，来解决线上的bug。这个时候就需要通过暂存命令把我们的代码先暂存起来，等bug解决完毕再恢复到新功能开发的现场，暂存本地改动的代码,可以用过`git stash`达到效果，我们使用`git stash pop` 用来退出暂存的内容，恢复到原来的新功能开发环境中。这是一个栈结构，后进先出`git  stash list` 显示所有的暂存数量
+
+
 ##解决冲突
 1. rebase冲突 (在我们的团队协作开发中，做需求采用的是开新分支的模式，当功能做完后，在被leader review代码的时候，被要求简化提交的commit，或者是修改不规范的代码，或者是跟主干master(或者develop)分支代码冲突。为了保证代码质量，以及commit提交的质量，需要用到rebase。rebase可以合并多条无用的commit，可以保证提交的commit形成一条树的主干结构，这也是跟merge的区别) 举例来说，现在完成了一个新功能，feature-hello-world，发现跟develop分支的代码有冲突，那就需要解决冲突，`git rebase`(直接用来解决冲突)， `git rebase -i`(可以用来合并commit，修改commit)。具体的冲突解决过程，可以在实践操作中体验，命令执行后都是有对应的英文提示的。`git rebase --continue`(当前冲突解决后，进行下一次commit的rebase过程) `git rebase --abort`(取消解决冲突，执行后，当前的rebase命令就被取消，代码恢复到rebase以前) rebase的时候，暂存区不能有内容，必须是干净的。
 2. merge冲突 merge冲突相对用的少了，同样也可以用来解决冲突，命令为 `git merge feature-x` 这种方式为快进式的合并方式(不会为这次merge操作生成一个新的commit)  `git merge --no-ff feature-x`(这种会为merge操作生成一个新的commit)
