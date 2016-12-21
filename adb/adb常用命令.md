@@ -27,4 +27,6 @@
 手机卡死了,只要能连上adb `adb reboot` 解决重启问题
 
 ##开发中常用
-`adb device` 查看当前设备的链接状态
+1. `adb device` 查看当前设备的链接状态
+2. 上面介绍的开启关闭adb服务
+3. `adb logcat -t` 用来查看应用中某个tag的日志
