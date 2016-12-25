@@ -35,3 +35,26 @@
 1. `adb device` 查看当前设备的链接状态
 2. 上面介绍的开启关闭adb服务
 3. `adb logcat -t` 用来查看应用中某个tag的日志
+
+
+
+
+## adb shell 数据库操作相关
+手机adb连接到电脑上，adb shell终端打开数据库操作如下:
+
+先输入`adb shell` 连接到你的设备
+
+输入`cd data/data/com.android.proviers.contacts/databases/`进入到数据库文件所在的目录
+
+输入`sqlite3 contacts2.db` 进入数据库中
+
+输入`select * from table1 where ...`查询表
+
+如果不知道表的名称，可以用 `.tables` 列出当前数据库的所有表
+
+如果不知道某一个表的构成结构，可以用`.schema contacts`（contacts是表的名字）
+
+想要知道更多，可以输入 `.help`
+
+
+
