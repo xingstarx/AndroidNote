@@ -119,4 +119,7 @@ Git在终端下也是有图形化工具的那就是tig，安装方式可以是`b
 2. 做Android开发，直接使用Android Studio的git工具，直接就可以查看当前文件下的所有commit记录，更可以自己选择哪两次的commit比较分析。非常方便灵活，这是我主要的使用方式
 
 
+## 其他不常用命令
+1. `git tag -d v0.1.0` 删除本地分支
+2. `git push --delete origin v0.1.0` 删除远程分支
 
