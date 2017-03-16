@@ -3,7 +3,7 @@
 ## 仓库命令
 1. 初始化一个仓库 `git init`
 2. 给本地仓库添加远程库 `git remote add origin https://github.com/xingstarx/AndroidNote`  这样本地仓库，就和远程仓库关联起来了，当然了，远程仓库可以有多个，添加的时候可以再取个别名如`git remote add upstream https://github.com/xingstarx2/AndroidNote`
-
+3. 克隆命令, 比如clone一个仓库 `git clone https://github.com/xingstarx/AndroidNote`, 如果仓库下面还存在子仓库，可以在clone命令结束后执行 `git submodule update --init --recursive`, 也可以是一开始clone的时候执行`git clone --recursive -j8 https://github.com/xingstarx/AndroidNote`
 ## 分支命令
 
 1. 创建分支 `git checkout -b feature-git-learning`(创建了一个feature-git-learning分支，并切换到feature-git-learning分支上去，主要使用这个命令) (`git checkout feature-git-learning` 是切换到feature-git-learning分支上，若是feature-git-learning分支不存在，就会执行失败)
@@ -101,25 +101,4 @@ p 是我的取的别名，我的配置为
 alias p='proxychains4'
 alias sup='sudo proxychains4'
 ```
-我们的代码仓库在shadowsocks是没有办法推送代码到服务器的，只能走proxychains4代理才能推送代码到远程
-
-## Git的图形化工具
-我比较喜欢使用sourcetree，用起来挺方便的，代码提交的commit非常清晰，相对于Github的客户端而言，我更喜欢用sourcetree，常用于配合rebase命令解决冲突，以及浏览代码改动比较。
-
-
-## 终端图形化工具
-Git在终端下也是有图形化工具的那就是tig，安装方式可以是`brew install tig` 非常简单强大的一个终端图形化工具，方便看清楚commit树的提交记录，当前的分支，代码差异比较。
-
-1. 终端下的用法，打开终端，切换到指定仓库的目录下，直接执行`tig`即可，就能够看到终端的图形化界面，通过上下方向箭头来控制移动选中的commit，具体可以查看tig的用法
-
-## 文件比较
-文件比较在开发中还是经常碰到的，比如说merge，rebase冲突。还包括比较某一个Git TAG下MainActivity.java文件跟develop分支MainActivity.java的区别。 
-
-1. 命令行中，有一种方式是`git log`的形式，我用的少，就不细讲
-2. 做Android开发，直接使用Android Studio的git工具，直接就可以查看当前文件下的所有commit记录，更可以自己选择哪两次的commit比较分析。非常方便灵活，这是我主要的使用方式
-
-
-## 其他不常用命令
-1. `git tag -d v0.1.0` 删除本地分支
-2. `git push --delete origin v0.1.0` 删除远程分支
-
+我们的代码仓库在shadowsocks是没有
