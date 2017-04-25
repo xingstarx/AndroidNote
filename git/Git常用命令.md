@@ -101,4 +101,7 @@ p 是我的取的别名，我的配置为
 alias p='proxychains4'
 alias sup='sudo proxychains4'
 ```
-我们的代码仓库在shadowsocks是没有
+
+## Git导出仓库master分支的代码
+`git archive --format zip --output "./app-master.zip" master -0` 导出没有Git历史的zip文件,减少体积
+
