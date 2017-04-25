@@ -104,4 +104,5 @@ alias sup='sudo proxychains4'
 
 ## Git导出仓库master分支的代码
 `git archive --format zip --output "./app-master.zip" master -0` 导出没有Git历史的zip文件,减少体积
+`git archive --format zip --output "./app-master.zip" master` 导出带有Git历史的zip文件
 
