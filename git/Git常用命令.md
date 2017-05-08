@@ -106,3 +106,5 @@ alias sup='sudo proxychains4'
 `git archive --format zip --output "./app-master.zip" master -0` 导出没有Git历史的zip文件,减少体积
 `git archive --format zip --output "./app-master.zip" master` 导出带有Git历史的zip文件
 
+## git cherry-pick
+git cherry-pick 用来拷贝某一条commit记录信息，意味着将某一个分支上的某次提交，复制到另一个分支上，例子如:git cherry-pick 99daed2 (填写对应的commit生成的sha值)
