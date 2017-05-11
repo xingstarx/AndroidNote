@@ -111,7 +111,7 @@ public class MyApplicationLike extends TinkerApplicationLike {
 2. 使用梆梆加固工具加固apk，并签名，得到加固并且重签名的app_protected_signed.apk
 3. 使用./gradlew reBuildChannel 生成渠道包
 4. 修改TinkerDemo中的若干代码
-5. ./gradlew tinkerPatchRelease 生成patch补丁apk(需要保证补丁包tinkerId跟基线版本tinkerId一致)(也就是说，打补丁的时候不要commit代码，tinkerId是根据git commit生成的)
+5. ./gradlew tinkerPatchRelease 生成patch补丁apk(需要保证补丁包tinkerId跟基线版本tinkerId一致)(也就是说，打补丁的时候不要commit代码，tinkerId是根据git commit生成的)(也可以考虑使用每次发版本的VersionName作为tinkerId，这样处理也比较方便)
 6. 如果搭建了补丁管理后台的话，使用后台上传补丁包，进行修复，根据log，可以观察到结果
 7. 如果没有搭建补丁管理后台的话，使用adb push app/build/outputs/tinkerPatch/release/patch_signed_7zip.apk /storage/sdcard0/（参考tinker的sample工程，以及[tinker接入文档](https://github.com/Tencent/tinker/wiki/Tinker-%E6%8E%A5%E5%85%A5%E6%8C%87%E5%8D%97)）
 
@@ -122,7 +122,7 @@ public class MyApplicationLike extends TinkerApplicationLike {
 1. gradle打release包需要开启签名(./gradlew assembleRelease),不然的话，打patch包的时候，提示出错(./gradlew tinkerPatchRelease)
 2. 打补丁包的时候，得保证基线版本是上一次发版本的apk，而且如果用的是tinker的默认形式的话,tinkerId得跟上一次发版本的apk的tinkerId一致，也就是基于上一次发版本的tag开bugfix分支，但是记得不要commit代码，这样就保证了tinkerId一致，如果是bugly集成的tinker，请参考bugly官方文档
 3. 加固包跟渠道包如何相容的问题，一开始不太懂，[如果有加固的需求如何做?](https://github.com/ltlovezh/ApkChannelPackage/issues/2)。 我们需要搞明白的是，加固包不是基线版本，使用tinker打补丁包，用的是基线版本，得到基线版本后，我们会选择梆梆加固，乐固，爱加密这样的平台对基线版本进行加固，得到加固包后，还需要注意的是，不能够用普通的渠道包生成方案来打渠道包。举例来说吧，我司的app，采用的是梆梆加固，加固后，工具自动帮你做了生成渠道包的操作，但是这种生成的渠道包实际上是有问题的，会导致无法打补丁，无法修复，tinker热修复不生效。这种生成的渠道包，不同渠道对应的dex的CRC都不一样，我们得保证打出来的渠道包的dex都是一样的，通过apksigner可以知道梆梆加固的签名工具采用的是v1签名方案，那么我们可以考虑在APK文件的注释字段，添加渠道信息。这样就能保证不同渠道的dex是一致的。
-4. [ApkChannelPackage](https://github.com/ltlovezh/ApkChannelPackage)存在一点小问题，还需要作者修复，v1签名的判断逻辑有问题，加固后的apk，会改变META-INF/XXX.SF的名称,这块需要修改，不然./gradle reBuildChannel执行后，无法生成渠道包，对于开发者而言可以自己搭建本地localMaven，来测试修改这个repo
+4. [ApkChannelPackage](https://github.com/ltlovezh/ApkChannelPackage) ~~存在一点小问题，还需要作者修复，v1签名的判断逻辑有问题，加固后的apk，会改变META-INF/XXX.SF的名称,这块需要修改，不然./gradle reBuildChannel执行后，无法生成渠道包，对于开发者而言可以自己搭建本地localMaven，来测试修改这个repo~~ 作者已经修复此问题，使用1.0.4即可
 5. 还有一些其他的坑已经记不得了。。。
 
 ## 参考资料
