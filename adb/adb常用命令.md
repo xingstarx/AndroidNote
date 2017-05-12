@@ -59,3 +59,7 @@
 ## aapt命令获取apk详细信息（包名、版本号、版本名称、兼容api级别、启动Activity等）
 aapt dump badging app-debug.apk
 
+## 获取手机上安装的app的versionName,versionCode
+adb shell dumpsys package com.star.contacts | grep versionName  //获取versionName
+adb shell dumpsys package com.star.contacts | grep versionCode  //获取versionCode
+adb shell dumpsys package com.star.contacts //获取详细信息
