@@ -64,5 +64,5 @@ adb shell dumpsys package com.star.contacts | grep versionName  //获取versionN
 adb shell dumpsys package com.star.contacts | grep versionCode  //获取versionCode
 adb shell dumpsys package com.star.contacts //获取详细信息
 
-##判断apk所采用的签名
+## 判断apk所采用的签名
 apksigner verify --verbose /Users/app_release.apk
