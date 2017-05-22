@@ -108,4 +108,4 @@ alias sup='sudo proxychains4'
 
 ## git cherry-pick
 git cherry-pick 用来拷贝某一条commit记录信息，意味着将某一个分支上的某次提交，复制到另一个分支上，例子如:git cherry-pick 99daed2 (填写对应的commit生成的sha值)
-git cherry-pick 处理冲突
+git cherry-pick 处理冲突,出现冲突后，可以通过`git status` 看哪些文件出现冲突, 然后解决下冲突，也可以用图形化工具sourceTree查看，根据`git status`执行后的提示，来进行操作,如`git cherry-pick --continue` 继续pick处理，如`git cherry-pick --abort`取消pick操作
