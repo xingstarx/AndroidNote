@@ -68,3 +68,11 @@ adb shell dumpsys package com.star.contacts //获取详细信息
 
 ## 判断apk所采用的签名
 apksigner verify --verbose /Users/app_release.apk
+
+## 抓取log
+Mac用户推荐用[pidcat](https://github.com/JakeWharton/pidcat/)
+
+pidcat com.star.contacts 抓取log
+
+pidcat com.star.contacts > 1.txt 写入日志文件中
+
