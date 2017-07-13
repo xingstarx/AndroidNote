@@ -56,6 +56,10 @@
 
 想要知道更多，可以输入 `.help`
 
+## adb shell get the device properties
+获取全部的属性值 `adb shell getprop`
+获取某一个属性值 `adb shell getprop ro.build.version.sdk`
+
 ## aapt命令获取apk详细信息（包名、版本号、版本名称、兼容api级别、启动Activity等）
 aapt dump badging app-debug.apk
 
