@@ -22,6 +22,9 @@
 但是用起来的时候，你还会发现出现一个SSL Proxying not enabled for this host: enable in Proxy Settings, SSL locations 这样的红叉叉提示，那是因为没有开启ssl，点击左侧的http请求，右键就可以看到一个按钮Enable SSL Proxy即可
 
 ### 对饿了么app进行测试实验
+
+这是之前查资料的时候参考的一篇文章[如何用charles进行https抓包](http://www.jianshu.com/p/923eca294579)
+
 来研究下饿了么app的请求是怎么回事，哈哈。
 下回继续，待续
 
