@@ -115,3 +115,6 @@ git cherry-pick 处理冲突,出现冲突后，可以通过`git status` 看哪�
 2. git config user.email "xxx823952375@gmail.com" 为single repository设置邮箱
 3. git config --global user.name "xingxing" 设置全局的用户名
 4. git config --global user.email "xxx823952375@gmail.com" 设置全局的邮箱
+
+## git submodule命令
+第一次checkout一个repo的时候，如果存在子module，可以通过`git submodule update --init --recursive`,来初始化子module
