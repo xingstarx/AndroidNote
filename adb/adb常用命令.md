@@ -80,3 +80,22 @@ pidcat com.star.contacts 抓取log
 
 pidcat com.star.contacts > 1.txt 写入日志文件中
 
+## adb pull命令
+当我们需要将手机app里面的私有目录文件拷贝出来（例如db文件），那么就可以通过以下方式
+
+首先进入
+
+adb shell
+
+接着执行
+
+su(切换到root环境，没有做实验，是否必须得是root才行)
+
+接着执行cp命令，将手机应用内的文件复制到sd卡中
+
+cp /data/data/com.xxx.star/tinker/patch-f016f6df/dex/changed_classes.dex.jar /mnt/sdcard
+
+接着我们通过adb pull命令，将sd卡的文件拉取到本地电脑上，比如mac
+
+adb pull sdcard/changed_classes.dex.jar（这个时候拷贝到mac上的是当前终端所在的目录下）
+
