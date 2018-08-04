@@ -102,3 +102,6 @@ adb pull sdcard/changed_classes.dex.jar（这个时候拷贝到mac上的是当�
 ## 查看android手机arm版本
 adb shell getprop ro.product.cpu.abi
 
+## 查看android手机dpi
+adb shell wm density
+
