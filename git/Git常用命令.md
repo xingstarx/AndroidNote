@@ -118,3 +118,6 @@ git cherry-pick 处理冲突,出现冲突后，可以通过`git status` 看哪�
 
 ## git submodule命令
 第一次checkout一个repo的时候，如果存在子module，可以通过`git submodule update --init --recursive`,来初始化子module
+
+## 使用终端图形化工具tig
+tig是一个git的终端图形化工具，还是挺好用的。相对于git log等最原始的命令而言，安装方式`brew install tig`，用法很简单，直接在git仓库目录下执行`tig`即可
