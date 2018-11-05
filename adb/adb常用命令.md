@@ -108,3 +108,6 @@ adb shell wm density
 ## 查看android屏幕分辨率
 adb shell wm size
 
+## kill app
+adb shell am kill 包名
+
