@@ -99,6 +99,12 @@ cp /data/data/com.xxx.star/tinker/patch-f016f6df/dex/changed_classes.dex.jar /mn
 
 adb pull sdcard/changed_classes.dex.jar（这个时候拷贝到mac上的是当前终端所在的目录下）
 
+## adb push命令
+
+把PC端的文件拷贝到SD卡上
+
+adb push 测试证书.pfx /sdcard/
+
 ## 查看android手机arm版本
 adb shell getprop ro.product.cpu.abi
 
